@@ -60,7 +60,8 @@ public class GBCamView extends FrameView {
             Preferences.load();
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(mainFrame, e.getMessage());
+            // Silently fail if there's no preferences file.
+            // it'll be created upon exit.
         }
 
         serialPortName = Preferences.loadSerialPortName();
@@ -784,6 +785,9 @@ public class GBCamView extends FrameView {
                 }
                 System.out.println();
 
+                /*
+                 * TODO: enable control of threshold
+                 */
                 System.out.println("Sending threshold");
                 out.write(220);
 
@@ -1112,6 +1116,7 @@ public class GBCamView extends FrameView {
         }
     }
 
+    // TODO: add code to implement getWhatComboBox for getting obj, pixel, or both
     @Action
     public void assignStuffToGet() {
         String text = (String) getWhatComboBox.getSelectedItem();
