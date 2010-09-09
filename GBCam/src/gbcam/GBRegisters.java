@@ -11,12 +11,13 @@ package gbcam;
  */
 public class GBRegisters {
     private int[] register = new int[8];
-    
+
+    // Set default values
     public GBRegisters() {
-        register[0] = 0x80;    // Z O
-        register[1] = 0x0E;    // N VH G
-        register[2] = 0x06;    // C1
-        register[3] = 0x00;    // C0
+        register[0] = 0x9B;    // Z O
+        register[1] = 0x00;    // N VH G
+        register[2] = 0x00;    // C1
+        register[3] = 0x3C;    // C0
         register[4] = 0x01;    // P
         register[5] = 0x00;    // M
         register[6] = 0x01;    // X
