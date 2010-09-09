@@ -745,10 +745,31 @@ public class GBCamView extends FrameView {
         min = 255;
         max = 0;
 
+        /*
+         * Protocol Summary
+         *   All integers are 1 byte HEX
+         *   All characters are 1 byte ASCII
+         *
+         * Set Registers:
+         * PC: R...\n -- set registers by sending R followed by all register
+         *     values and threshold value
+         * AVR: K -- got registers
+         *
+         * Take picture+objects:
+         * PC:  T\n -- tell Arduino to take a picture and send pixels + objects
+         * AVR: S -- start data
+         * AVR: R -- start pixels
+         * AVR: ... -- each pixel sent as 0..255 value.  128x123 pixels sent
+         * AVR: O. -- start objects; object count sent after O
+         * AVR: ... -- each object sent as:
+         *      object index
+         *      left, top, right, bottom -- dimensions of bounding box
+         * AVR: ! -- all done
+         */
+
         //while (true){
             try {
                 // make sure input buffer is empty
-    /*
                 System.out.println("Flushing buffer");
                 while (in.available() > 0)
                     in.read();
@@ -770,18 +791,24 @@ public class GBCamView extends FrameView {
                 c = Communication.getByte(in, timeout);
                 System.out.println("Received "+Character.toString((char) c)+" response");
 
+                /*
+                 * Retrieves pixels and objects
+                 */
                 System.out.println("Sending T command");
                 out.write('T');
-              */
+
+                /*
+                 * Retrieve objects only
+                 */
                 /*
                 System.out.println("Sending O command");
                 out.write('O');
                 */
-/*
+
                 System.out.println("Waiting for S response");
                 c = Communication.getByte(in, timeout);
                 System.out.println("Received "+Character.toString((char) c)+" response");
-*/
+
                 // TODO: need special character for getting greyscale
                 // TODO: or need to fix AVR to not always send stream of pixels
                 System.out.println("Waiting for R response");
