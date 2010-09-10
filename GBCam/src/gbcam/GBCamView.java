@@ -5,26 +5,15 @@
 package gbcam;
 
 import org.jdesktop.application.Action;
-import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
-import org.jdesktop.application.TaskMonitor;
 import java.util.Vector;
 import java.util.Enumeration;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import javax.swing.BorderFactory;
-import javax.swing.Timer;
-import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import net.sf.image4j.codec.bmp.*;
-import net.sf.image4j.io.*;
-import net.sf.image4j.util.*;
 import gnu.io.*;
 import java.io.*;
 
@@ -46,6 +35,8 @@ public class GBCamView extends FrameView {
     public GBCamView(SingleFrameApplication app) {
         super(app);
 
+        // TODO: Move all gnu.io stuff into Communications
+        // TODO: give credit for RXTX
         initComponents();
 
         System.out.println("Creating BufferedImage");
@@ -732,6 +723,7 @@ public class GBCamView extends FrameView {
         assignX();
     }//GEN-LAST:event_textXFocusLost
 
+    // TODO: Display communications timeout error dialog
     @Action
     public void takePicture() {
         int timeout=5000; // 5s timeout for serial reads
