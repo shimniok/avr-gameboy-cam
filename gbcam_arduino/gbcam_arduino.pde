@@ -7,6 +7,21 @@
  */
 
 /* ------------------------------------------------------------------------ */
+/* HOW TO CONNECT THE GAME BOY CAMERA                                       */
+/* ------------------------------------------------------------------------ */
+/*
+
+  READ  -- D8,  PB0
+  XCK   -- D9,  PB1
+  XRST  -- D10, PB2
+  LOAD  -- D11, PB3
+  SIN   -- D12, PB4
+  START -- D13, PB5
+  VOUT  -- A3,  PC3
+  
+  */
+
+/* ------------------------------------------------------------------------ */
 /* INCLUDES                                                                 */
 /* ------------------------------------------------------------------------ */
  
@@ -497,7 +512,7 @@ void camReadPicture(boolean getPixels, boolean getObjects)
       camClockL();
       camStepDelay();
       // get the next pixel, buffer it, and send it out over serial
-      pixel = analogRead(CAM_ADC_PIN) & 0x0FF;
+      pixel = analogRead(CAM_ADC_PIN) >> 2;
       if (getPixels)
         Serial.write(pixel);
       bright = (pixel > threshold);   // if pixel value > threshold it is bright
