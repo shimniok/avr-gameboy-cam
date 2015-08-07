@@ -178,12 +178,12 @@ void loop()
 ///////////////////////////////////////////////////////////////////////////
 // TWI HANDLERS
 void recvByte(int howMany) {
-  dataIn = Wire.receive();
+  dataIn = Wire.read();
   dataReady = true;
 }
 
 void sendByte(void) {
-  Wire.send(dataOut);
+  Wire.write(dataOut);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -513,9 +513,16 @@ void camReadPicture(boolean getPixels, boolean getObjects)
       camStepDelay();
       // get the next pixel, buffer it, and send it out over serial
       pixel = analogRead(CAM_ADC_PIN) >> 2;
-      if (getPixels)
-        Serial.write(pixel);
       bright = (pixel > threshold);   // if pixel value > threshold it is bright
+      if (getPixels) {
+        if (pixel > 200)
+          Serial.write('#');
+        else if (pixel > 100)
+          Serial.write('+');
+        else
+          Serial.write(' ');
+//        Serial.write(pixel);
+      }
       aboveobj = objref[prev][x];     // pixel above's object reference (0 if no object)
       redoobj = 0;                    // reset redoobj
       camStepDelay(); // nix this and run the obj detection code instead
@@ -579,7 +586,6 @@ void camReadPicture(boolean getPixels, boolean getObjects)
     camClockL();
     camStepDelay();
     camStepDelay();
-
     camClockH();
     camStepDelay();
     camStepDelay();
